@@ -69,6 +69,98 @@ body.display-mode .cloud-songline .by{display:none}
 body.display-mode .song-info{padding-top:4px}
 body.display-mode .cloud-message{line-height:1.35}
 body.display-mode .cloud-address{line-height:1.2}
+/* Compact portrait cards: the card, thumbnail and text share one width. */
+body.display-mode .cloud-field{
+ width:min(96vw,calc((100dvh - 160px)*1.02));max-width:1500px;
+ margin:0 auto;padding:4px 0 6px;gap:clamp(8px,1.3vh,18px);
+ grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr));
+}
+body.display-mode .cloud{
+ padding:clamp(8px,1.2vh,16px);border:1px solid #d6e7f3;
+ border-radius:clamp(17px,2.5vh,30px);background:#fff;
+ box-shadow:0 5px 18px #29668c12;overflow:hidden;
+}
+body.display-mode .cloud-letter{width:100%;height:100%;min-width:0;gap:0}
+body.display-mode .cloud-songline{width:100%;flex:none}
+body.display-mode .cloud-songline img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:clamp(8px,1.1vh,13px)}
+body.display-mode .cloud-songline .song-info{width:100%;padding:clamp(4px,.6vh,7px) 0 0}
+body.display-mode .cloud-songline .song{
+ font-size:clamp(10px,1.45vh,19px);line-height:1.3;color:#216394;
+ display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+ overflow:hidden;overflow-wrap:anywhere;letter-spacing:-.25px;
+}
+body.display-mode .cloud-songline .by{display:block;font-size:clamp(8px,.95vh,12px);line-height:1.25;margin-top:clamp(2px,.3vh,4px);color:#7d98ad}
+body.display-mode .cloud-address{width:100%;margin:clamp(6px,1vh,12px) 0 clamp(5px,.7vh,9px);font-size:clamp(8px,1.02vh,13px);line-height:1.25;gap:5px;flex:none}
+body.display-mode .cloud-address strong{color:#2a6d9f}
+body.display-mode .cloud-message{
+ width:100%;margin:0;padding:clamp(6px,.85vh,11px);
+ font-size:clamp(10px,1.35vh,17px);line-height:1.4;font-weight:600;
+ background:#eaf4ff;color:#285d87;border-radius:3px;
+ min-height:calc(2.8em + clamp(6px,.85vh,11px) + clamp(6px,.85vh,11px));flex:1;overflow:hidden;
+}
+body.display-mode .message-text{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+@media(max-height:600px){
+ body.display-mode .cloud-field{width:min(96vw,calc((100dvh - 100px)*1.02));gap:6px}
+ body.display-mode .cloud{padding:6px;border-radius:12px}
+ body.display-mode .cloud-songline .song{-webkit-line-clamp:1;font-size:9px}
+ body.display-mode .cloud-songline .by{display:none}
+ body.display-mode .cloud-address{font-size:8px;margin:4px 0}
+ body.display-mode .cloud-message{font-size:9px;padding:4px;min-height:calc(2.8em + 8px)}
+}
+
+/* An airy wall of taped notes; bounded slots keep every note readable. */
+body.display-mode .app{background:radial-gradient(ellipse at 16% 16%,#fff8df88,transparent 45%),radial-gradient(ellipse at 85% 75%,#f5e9ff77,transparent 50%),linear-gradient(145deg,#c9e7f5,#f0f8fc 53%,#d9ecf7)}
+body.display-mode .cloud-field{
+ width:96vw;max-width:2100px;
+ grid-template-columns:repeat(14,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr));
+ gap:clamp(12px,2vh,24px) clamp(5px,.65vw,14px);
+ padding:clamp(14px,2vh,24px) 20px 12px;place-items:center;
+}
+body.display-mode .cloud{
+ --paper:#fff3bd;--angle:-2deg;--shift:0px;--lift:0px;
+ grid-column:span 2;
+ width:min(100%,calc((100dvh - 160px)*.235));height:calc(100% - 8px);
+ padding:clamp(8px,1.15vh,15px);border:1px solid #6b765610;
+ border-radius:3px 4px 14px 3px;background:linear-gradient(145deg,#ffffff30,transparent 65%),var(--paper);
+ box-shadow:2px 7px 11px #42627e23,0 1px 2px #37557416;
+ transform:translate(var(--shift),var(--lift)) rotate(var(--angle));
+ overflow:visible;transition:box-shadow .18s ease;isolation:isolate;
+}
+body.display-mode .cloud:before{
+ content:'';position:absolute;top:clamp(-10px,-1vh,-6px);left:32%;width:38%;height:clamp(15px,2.2vh,25px);
+ background:repeating-linear-gradient(100deg,#fff9 0 2px,#ffffff80 2px 4px);
+ border:1px solid #ffffff90;box-shadow:0 1px 2px #4c61701a;
+ transform:rotate(-5deg);pointer-events:none;z-index:2;
+}
+body.display-mode .cloud:after{content:'';position:absolute;right:0;bottom:0;width:14px;height:14px;background:linear-gradient(135deg,#0000000b 48%,#fff9 50%);border-radius:0 0 12px 0;pointer-events:none}
+body.display-mode .cloud:nth-child(6n+2){--paper:#ffe7ed;--angle:1.7deg;--lift:5px;--shift:-7px}
+body.display-mode .cloud:nth-child(6n+3){--paper:#e2f3db;--angle:-1deg;--lift:-3px;--shift:8px}
+body.display-mode .cloud:nth-child(6n+4){--paper:#e6e9ff;--angle:2.3deg;--lift:5px;--shift:-4px}
+body.display-mode .cloud:nth-child(6n+5){--paper:#e0f3f7;--angle:1.3deg;--lift:2px;--shift:10px}
+body.display-mode .cloud:nth-child(6n){--paper:#fff0d8;--angle:-2.1deg;--lift:-4px;--shift:-9px}
+body.display-mode .cloud:nth-child(7){--angle:2deg;--shift:-9px;--lift:3px}
+body.display-mode .cloud:nth-child(9){--angle:-2.4deg;--shift:-5px}
+body.display-mode .cloud:nth-child(11){--angle:1deg;--shift:4px;--lift:4px}
+/* Seven, six, seven notes: the staggered middle row keeps the board informal. */
+body.display-mode .cloud:nth-child(8){grid-column:2 / span 2}
+body.display-mode .cloud:nth-child(14){grid-column:1 / span 2}
+body.display-mode .cloud:nth-child(4n+2){--lift:clamp(7px,1.1vh,12px)}
+body.display-mode .cloud:nth-child(4n){--lift:clamp(-8px,-.7vh,-5px)}
+body.display-mode .cloud:hover,body.display-mode .cloud:focus-visible{transform:translate(var(--shift),var(--lift)) rotate(var(--angle));box-shadow:3px 9px 18px #36577635;z-index:3}
+body.display-mode .cloud-songline img{border-radius:3px;border:3px solid #ffffffba;box-sizing:border-box;box-shadow:0 1px 3px #40526413}
+body.display-mode .cloud-songline .song{color:#214c69}
+body.display-mode .cloud-songline .by{color:#63768a}
+body.display-mode .cloud-address{color:#61748a;margin:clamp(4px,.65vh,8px) 0 clamp(4px,.6vh,7px)}
+body.display-mode .cloud-message{border-radius:0;background:transparent;border-top:1px dashed #526e8d30;padding:clamp(5px,.7vh,9px) 0 0;color:#284a66;font-weight:600;min-height:calc(2.8em + clamp(5px,.7vh,9px))}
+body.display-mode .display-controls{gap:10px}
+@media(max-height:800px){body.display-mode .cloud-songline .song{-webkit-line-clamp:1}body.display-mode .cloud-songline .by{display:none}}
+@media(max-height:600px){
+ body.display-mode .cloud-field{width:96vw;gap:10px 5px;padding:12px 16px 8px}
+ body.display-mode .cloud{width:min(100%,calc((100dvh - 100px)*.235));padding:6px;--shift:0px!important;--lift:0px!important}
+ body.display-mode .cloud-message{padding:4px 0 0;min-height:calc(2.8em + 4px)}
+}
+@media(prefers-reduced-motion:reduce){body.display-mode .cloud{transition:none}}
+
 .player-layout{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(260px,1fr);gap:24px;max-width:1180px;margin:20px auto 40px;align-items:start}
 .player-main,.player-queue{min-width:0;background:#fffffff2;border:1px solid white;border-radius:26px;padding:22px;box-shadow:0 15px 40px #4f92b714}
 .player-mount{width:100%;aspect-ratio:16/9;min-height:200px;background:#e7f4ff;display:grid;place-items:center;text-align:center;color:#36658e;border-radius:12px;overflow:hidden}
@@ -161,7 +253,7 @@ const SUPABASE_KEY='sb_publishable_KSojq_LCnx9yimDzkzzdrw_MF4Y64CI';
 const SUBMIT_ENDPOINT=SUPABASE_URL+'/functions/v1/cheers-submit';
 const ENDPOINT=SUPABASE_URL+'/rest/v1/cheers';
 const DISPLAY_MODE=new URLSearchParams(location.search).get('display')==='1';
-const PER_PAGE=DISPLAY_MODE?12:4;
+const PER_PAGE=DISPLAY_MODE?20:4;
 let items=[],page=0,mode='live',refreshTimer=null,formShownAt=0;
 if(DISPLAY_MODE)document.body.classList.add('display-mode');
 const $=id=>document.getElementById(id);
