@@ -396,6 +396,7 @@ function setStatus(message,error=false){$('formStatus').textContent=message;$('f
 function updateCount(n){$('homeCount').textContent=n;$('skyCount').textContent=n;refreshHome()}
 async function request(url,options={}){const response=await fetch(url,{...options,headers:{...headers(),...(options.headers||{})}});if(!response.ok){let detail='';try{const data=await response.json();detail=data.message||data.error||''}catch{}throw Error('서버 응답 '+response.status+(detail?' · '+detail:''))}return response}
 let loadInFlight=null;
+let displaySnapshotReady=false,displayArrivalPending=false,lastDisplayArrivalAt=0,loadHadError=false;
 function load(){
   if(mode==='demo'){render();if(playbackInitialized)syncPlayback();return Promise.resolve();}
   if(loadInFlight)return loadInFlight;
@@ -414,9 +415,26 @@ function load(){
         collected.push(...batch);cursor=next;
         if(batch.length<500)break;
       }
-      items=[...new Map(collected.map(item=>[String(item.id),item])).values()].reverse();
-      render();syncPlayback();
+      const nextItems=[...new Map(collected.map(item=>[String(item.id),item])).values()].reverse();
+      const changed=JSON.stringify(nextItems)!==JSON.stringify(items);
+      const firstDisplayLoad=DISPLAY_MODE&&!displaySnapshotReady;
+      if(DISPLAY_MODE){
+        const previousIds=new Set(items.map(item=>String(item.id)));
+        if(displaySnapshotReady&&nextItems.some(item=>!previousIds.has(String(item.id))))displayArrivalPending=true;
+        displaySnapshotReady=true;
+      }
+      items=nextItems;
+      let revealArrival=false;
+      // Keep an open message readable; show new arrivals at the next check after it closes.
+      if(DISPLAY_MODE&&displayArrivalPending&&!$('overlay').classList.contains('show')){
+        page=0;displayArrivalPending=false;lastDisplayArrivalAt=Date.now();revealArrival=true;
+      }
+      // Unchanged exhibition cards keep their DOM, avoiding flashing or lost keyboard focus.
+      if(!DISPLAY_MODE||firstDisplayLoad||loadHadError||changed||revealArrival)render();
+      loadHadError=false;
+      syncPlayback();
     }catch(e){
+      loadHadError=true;
       homeLoadError();$('queueFresh').textContent=uiText('목록 갱신에 실패했습니다. 인터넷 연결을 확인해주세요.');
       // A failed response is not an empty playlist: keep the current track and waiting songs.
       if(!items.length){const msg=document.createElement('div');msg.className='empty';msg.textContent=uiText('응원곡을 불러오지 못했습니다. 잠시 후 새로고침해주세요.');$('cloudField').replaceChildren(msg);}
@@ -618,8 +636,10 @@ $('overlay').addEventListener('keydown',e=>{
 
 // URL 끝에 ?demo=1을 붙이면 저장 없이 시연할 수 있습니다. 일반 접속은 실제 DB를 사용합니다.
 if(new URLSearchParams(location.search).get('demo')==='1'){mode='demo';$('demoBanner').classList.add('show');const samples=[['하늘을 응원하는 팬','아이유 - 밤편지','지금도 충분히 잘하고 있어요. 여러분의 꿈을 응원합니다!','dQw4w9WgXcQ'],['점프팬','DAY6 - 한 페이지가 될 수 있게','오늘의 도전이 내일의 멋진 한 페이지가 되기를!','dQw4w9WgXcQ'],['비행기 구름','응원하는 노래','힘들 때 이 노래를 듣고 다시 힘을 내세요.','dQw4w9WgXcQ'],['미래를 응원해','나의 플레이리스트','언제나 여러분의 편에서 응원할게요!','dQw4w9WgXcQ']];items=samples.map((s,i)=>({id:i,nickname:s[0],song_title:s[1],message:s[2],video_id:s[3]}));updateCount(items.length)}else{load()}
-refreshTimer=setInterval(()=>{if(mode==='live'&&($('skyScreen').classList.contains('active')||$('home').classList.contains('active')))load()},30000);
-if(DISPLAY_MODE){show('skyScreen');setInterval(()=>{if(!$('overlay').classList.contains('show')){const pages=Math.max(1,Math.ceil(items.length/PER_PAGE));if(pages>1){page=(page+1)%pages;render()}}},12000)}
+refreshTimer=setInterval(()=>{if(mode==='live'&&!document.hidden&&($('skyScreen').classList.contains('active')||$('home').classList.contains('active')))load()},DISPLAY_MODE?5000:30000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&mode==='live'&&($('skyScreen').classList.contains('active')||$('home').classList.contains('active')))load();});
+window.addEventListener('online',()=>{if(mode==='live'&&!document.hidden&&($('skyScreen').classList.contains('active')||$('home').classList.contains('active')))load();});
+if(DISPLAY_MODE){show('skyScreen');setInterval(()=>{if(!document.hidden&&!$('overlay').classList.contains('show')&&(!lastDisplayArrivalAt||Date.now()-lastDisplayArrivalAt>=12000)){const pages=Math.max(1,Math.ceil(items.length/PER_PAGE));if(pages>1){page=(page+1)%pages;render()}}},12000)}
 // Queue state belongs to this browser. A successful snapshot removes staff-deleted entries.
 const playback={player:null,ready:false,initializing:false,current:null,queue:[],done:new Set(),running:false,visible:false,apiPromise:null,errors:0,epoch:0,armed:null};
 var playbackInitialized=true;
