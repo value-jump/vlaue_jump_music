@@ -208,6 +208,69 @@ body.display-mode .display-controls{gap:10px}
 @media(min-width:761px) and (max-width:1190px){#home>.home-layout{grid-template-columns:minmax(0,1fr) 345px}}
 @media(max-width:760px){#home>.journey,#home:not(.listening-open)>.home-community{max-width:520px}}
 @media(max-width:760px){.listening-heading{align-items:flex-start;flex-direction:column;gap:12px}.listening-heading button{align-self:flex-end}.listening-heading h2{font-size:22px}.listening-heading button{max-width:none;white-space:nowrap}}
+.listening-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px}
+.mini-heading{display:flex;align-items:center;gap:6px;margin-bottom:10px}
+.mini-heading strong{min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;color:#184a78}
+.mini-heading button{flex-shrink:0;min-height:32px;border:1px solid #cee4f5;background:#f4faff;border-radius:10px;padding:5px 8px;font-size:11px}
+#closeMiniPlayer{font-size:20px;line-height:1}
+#homePlayback.mini-player{position:fixed;z-index:25;right:20px;bottom:20px;width:380px;max-width:calc(100vw - 24px);margin:0;padding:12px;border:1px solid #c7e2f7;border-radius:20px;background:#fff;box-shadow:0 10px 40px #163e7055}
+.mini-player .listening-heading,.mini-player .listening-sidebar,.mini-player .listening-main>.hint,.mini-player .listening-source{display:none}
+.home-playback.mini-player #playerStatus{font-size:10px;line-height:1.4;max-height:42px;overflow:auto;margin:8px 0 0}
+.mini-player .listening-layout{display:block}
+.mini-player .player-mount{height:200px;min-height:200px;aspect-ratio:auto;border-radius:10px}
+.mini-player .player-toolbar{margin-top:10px}
+.mini-player .player-controls{width:100%;justify-content:center;gap:8px}
+.mini-player .player-controls button{font-size:12px;padding:8px 14px;min-height:36px}
+body.has-mini-player{padding-bottom:400px;scroll-padding-bottom:400px}
+html:has(body.has-mini-player){scroll-padding-bottom:400px}
+body.has-mini-player input,body.has-mini-player textarea,body.has-mini-player button{scroll-margin-bottom:400px}
+body.player-window .site-header,body.player-window #home,body.player-window #formScreen,body.player-window #thanksScreen,body.player-window #skyScreen{display:none!important}
+body.player-window .app{padding:12px;max-width:800px}
+body.player-window #homePlayback{margin:0 auto;padding:18px}
+body.player-window .listening-heading{margin-bottom:16px}
+body.player-window .listening-layout{grid-template-columns:1fr}
+body.player-window .listening-sidebar{border-left:0;padding:16px 0 0;border-top:1px solid #dcecf7}
+body.player-window .listening-record{display:none}
+body.player-window .listening-now{margin-bottom:8px}
+body.player-window #nowMessage{max-height:80px}
+@media(max-width:760px){#homePlayback.mini-player{right:12px;bottom:12px;width:356px;padding:10px}.mini-player .player-controls button{padding:8px 12px;font-size:12px;min-height:36px}.listening-actions{align-self:flex-end}}
+/* Do not reserve a large empty video box before the first play request. */
+.home-playback:not(.video-requested) .player-mount{display:none}
+/* Slim bottom dock; the video remains visible above it while playing. */
+#homePlayback.mini-player{right:16px;bottom:16px;width:600px;padding:10px 14px;border-radius:18px}
+.mini-player .mini-heading{margin:0 0 6px;gap:5px}
+.mini-player .player-mount{position:absolute;right:0;bottom:calc(100% + 10px);width:200px;height:200px;min-height:200px;border:0;box-shadow:0 8px 28px #123d6440}
+.mini-player .player-toolbar{margin:0}
+.mini-player .player-controls{justify-content:flex-start}
+.home-playback.mini-player #playerStatus{position:absolute;left:265px;right:14px;bottom:15px;margin:0;max-height:30px;font-size:10px}
+.mini-player.bar-only .player-mount{display:none}
+/* On playlist pages, keep the idle preview thumbnail-sized, not a 200px square. */
+#homePlayback.mini-player:not(.video-requested):not(.bar-only) .player-mount{display:block;width:96px;height:54px;min-height:0;border-radius:8px}
+.mini-player:not(.video-requested) .player-placeholder{min-height:0;height:54px}
+.mini-player:not(.video-requested) .placeholder-label{min-height:0;height:54px;gap:0}
+.mini-player:not(.video-requested) .placeholder-label b{width:30px;height:30px;font-size:14px;padding-left:2px}
+.mini-player:not(.video-requested) .placeholder-label>span{display:none}
+body.has-mini-player{padding-bottom:340px;scroll-padding-bottom:340px}
+html:has(body.has-mini-player){scroll-padding-bottom:340px}
+body.has-mini-player input,body.has-mini-player textarea,body.has-mini-player button{scroll-margin-bottom:340px}
+body.has-mini-player.player-bar-folded{padding-bottom:140px;scroll-padding-bottom:140px}
+html:has(body.player-bar-folded){scroll-padding-bottom:140px}
+body.player-bar-folded input,body.player-bar-folded textarea,body.player-bar-folded button{scroll-margin-bottom:140px}
+@media(max-width:640px){
+ #homePlayback.mini-player{right:12px;bottom:12px;width:calc(100vw - 24px);padding:10px}
+ .mini-player .mini-heading{flex-wrap:wrap}
+ .mini-player .mini-heading strong{flex-basis:100%;font-size:12px}
+ .mini-player .mini-heading button{min-height:30px;font-size:10px;padding:4px 8px}
+ .mini-player .mini-heading #closeMiniPlayer{margin-left:auto}
+ .home-playback.mini-player #playerStatus{position:static;max-height:28px;margin:5px 0 0}
+ .mini-player .player-controls button{min-height:32px;padding:5px 12px}
+ body.has-mini-player{padding-bottom:390px}
+ html:has(body.has-mini-player){scroll-padding-bottom:390px}
+ body.has-mini-player input,body.has-mini-player textarea,body.has-mini-player button{scroll-margin-bottom:390px}
+ body.has-mini-player.player-bar-folded{padding-bottom:180px}
+ html:has(body.player-bar-folded){scroll-padding-bottom:180px}
+ body.player-bar-folded input,body.player-bar-folded textarea,body.player-bar-folded button{scroll-margin-bottom:180px}
+}
 
 /* A compact, keyboard-accessible language control, without an external translation service. */
 .language-switch{display:flex;gap:2px;padding:3px;border:1px solid #cbe2f6;border-radius:24px;background:#eff8ff;flex-shrink:0}
@@ -246,6 +309,24 @@ html[lang=en] .panel-tabs button{white-space:normal}
  <nav class="site-nav" aria-label="주 메뉴"><button data-go="home" aria-current="page">홈</button><button data-go="formScreen">응원곡 남기기</button><button data-go="skyScreen">플레이리스트</button><button data-go="playerScreen">함께 듣기</button></nav><div class="language-switch" role="group" aria-label="Language / 언어"><button type="button" data-language="ko" lang="ko" aria-pressed="true">한국어</button><button type="button" data-language="en" lang="en" aria-pressed="false">English</button></div>
  <button class="header-display" id="headerDisplay" title="행사장 전시 화면"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg><span>전시 화면</span></button>
 </header>
+<div id="homePlayback" class="home-playback" hidden aria-labelledby="listeningHeading">
+ <div class="mini-heading" hidden><strong id="miniTitle">함께 듣기</strong><button id="foldPlayer" type="button" aria-expanded="true" aria-controls="playerMount">영상 접기</button><button id="expandPlayer" type="button">크게 보기</button><button id="miniOpenWindow" type="button" aria-label="별도 창에서 듣기">↗</button><button id="closeMiniPlayer" type="button" aria-label="재생 중지하고 닫기">×</button></div>
+ <div class="listening-heading"><div><span>OUR CHEER PLAYLIST</span><h2 id="listeningHeading">음악으로 이어지는 응원</h2></div><div class="listening-actions"><button id="openPlayerWindow" type="button">별도 창에서 듣기 ↗</button><button id="closeListening" type="button">홈으로 돌아가기 ↗</button></div></div>
+ <div class="listening-layout">
+  <div class="listening-main">
+   <div id="playerMount" class="player-mount"><button class="player-placeholder" id="playerPlaceholder" type="button" aria-label="응원곡 재생"><img id="playerPoster" alt="" hidden><span class="placeholder-label"><b>▶</b><span>함께 듣기 시작</span></span></button></div>
+   <div class="player-toolbar"><div class="player-controls"><button id="playerStart" type="button">▶ 재생 시작</button><button id="playerPause" type="button" disabled hidden>Ⅱ 일시정지</button><button id="playerNext" type="button" disabled>다음 곡 ›</button></div><span class="listening-source">YouTube</span></div>
+   <p id="playerStatus" role="status" aria-live="polite">재생을 누르면 등록된 순서대로 이어집니다.</p>
+   <p class="hint">다른 메뉴에서도 작은 영상으로 계속 들을 수 있어요. 창을 최소화하거나 다른 탭으로 이동하면 일시정지됩니다.</p>
+  </div>
+  <aside class="listening-sidebar">
+   <div class="listening-now"><div class="listening-record" aria-hidden="true"><div class="vinyl"><div class="vinyl-label"><img id="listeningCover" alt="" hidden></div></div></div><div class="listening-title"><span id="listeningState">함께 들을 응원곡</span><h3 id="nowTitle">새 응원곡을 기다리고 있어요.</h3><p id="nowFrom"></p></div></div>
+   <p id="nowMessage" class="message-box"></p>
+   <div class="player-queue" aria-label="재생 대기 목록"><div class="queue-heading"><h3>이어 들을 응원곡 <span id="queueCount">0</span></h3><button id="playerRefresh" type="button" aria-label="재생 목록 새로고침">↻</button></div><ol id="queueList"></ol><div class="queue-footer"><button id="playerRestart" type="button">처음부터 듣기</button><span id="queueFresh" class="hint"></span></div></div>
+  </aside>
+ </div>
+</div>
+
 <section class="screen active sky" id="home" aria-labelledby="homeTitle">
  <div class="home-layout">
   <div class="hero-copy">
@@ -276,23 +357,6 @@ html[lang=en] .panel-tabs button{white-space:normal}
    <div class="record-caption"><span id="recordState">함께 들을 응원곡</span><h2 id="featuredTitle">당신의 응원을 기다려요</h2><p id="featuredSender">미래세대를 위한 추천음악</p><button id="featuredLink" type="button" aria-disabled="true">▶ 이 곡 듣기</button></div>
   </div>
  </div>
- <div id="homePlayback" class="home-playback" hidden aria-labelledby="listeningHeading">
- <div class="listening-heading"><div><span>OUR CHEER PLAYLIST</span><h2 id="listeningHeading">음악으로 이어지는 응원</h2></div><button id="closeListening" type="button">홈으로 돌아가기 ↗</button></div>
- <div class="listening-layout">
-  <div class="listening-main">
-   <div id="playerMount" class="player-mount"><button class="player-placeholder" id="playerPlaceholder" type="button" aria-label="응원곡 재생"><img id="playerPoster" alt="" hidden><span class="placeholder-label"><b>▶</b><span>함께 듣기 시작</span></span></button></div>
-   <div class="player-toolbar"><div class="player-controls"><button id="playerStart" type="button">▶ 재생 시작</button><button id="playerPause" type="button" disabled hidden>Ⅱ 일시정지</button><button id="playerNext" type="button" disabled>다음 곡 ›</button></div><span class="listening-source">YouTube</span></div>
-   <p id="playerStatus" role="status" aria-live="polite">재생을 누르면 등록된 순서대로 이어집니다.</p>
-   <p class="hint">다른 화면이나 탭으로 이동하면 일시정지됩니다.</p>
-  </div>
-  <aside class="listening-sidebar">
-   <div class="listening-now"><div class="listening-record" aria-hidden="true"><div class="vinyl"><div class="vinyl-label"><img id="listeningCover" alt="" hidden></div></div></div><div class="listening-title"><span id="listeningState">함께 들을 응원곡</span><h3 id="nowTitle">새 응원곡을 기다리고 있어요.</h3><p id="nowFrom"></p></div></div>
-   <p id="nowMessage" class="message-box"></p>
-   <div class="player-queue" aria-label="재생 대기 목록"><div class="queue-heading"><h3>이어 들을 응원곡 <span id="queueCount">0</span></h3><button id="playerRefresh" type="button" aria-label="재생 목록 새로고침">↻</button></div><ol id="queueList"></ol><div class="queue-footer"><button id="playerRestart" type="button">처음부터 듣기</button><span id="queueFresh" class="hint"></span></div></div>
-  </aside>
- </div>
-</div>
-
  <ol class="journey" aria-label="참여 방법">
   <li><span class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 17V5l10-2v12M10 9l10-2"/><ellipse cx="6.5" cy="18" rx="3.5" ry="2.5" fill="currentColor"/><ellipse cx="16.5" cy="16" rx="3.5" ry="2.5" fill="currentColor"/></svg></span><span><small>01</small><strong>응원곡을 골라요</strong><p>응원의 마음을 담은 노래를 선택해요</p></span></li>
   <li><span class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11a9 8 0 0 1-9 8 11 11 0 0 1-4-.7L3 21l1.5-5A7 7 0 0 1 3 11a9 8 0 0 1 18 0Z"/><path d="M8 11h.01M12 11h.01M16 11h.01" stroke-width="2.8"/></svg></span><span><small>02</small><strong>메시지를 남겨요</strong><p>미래세대에게 전하고 싶은 응원을 써요</p></span></li>
@@ -318,14 +382,14 @@ html[lang=en] .panel-tabs button{white-space:normal}
 <section class="screen sky" id="thanksScreen"><div class="page-head"><button class="back" data-go="home" aria-label="홈으로">‹</button><h2>응원 등록 완료</h2></div><div class="form-card" style="text-align:center"><h3 id="receiptTitle" tabindex="-1">가치점프 플레이리스트 등록 완료!</h3><p id="receiptDescription" class="hint" style="margin:18px 0;font-size:13px">여러분의 노래와 응원이 플레이리스트에 공개되었습니다.</p><p class="hint">목록 반영까지 잠시 걸릴 수 있습니다. 다시 등록하지 않으셔도 됩니다.</p><button class="main-cta" id="receiptList" type="button" style="margin-top:20px">공개된 응원곡 보기</button><button class="main-cta secondary" data-go="home" type="button" style="margin-top:12px">처음으로</button></div></section><section class="screen sky" id="skyScreen"><div class="sky-head"><button class="back" data-go="home" aria-label="홈으로">‹</button><h2>응원의 플레이리스트</h2><button id="refreshBtn">↻ 새로고침</button></div><p class="sky-sub">한 곡 한 곡 모여 더 넓은 하늘이 됩니다.</p><p class="letter-caption">From. 응원을 보내는 사람　→　To. 미래세대</p><div class="sky-counter"><div class="counter">♫ 지금까지 모인 응원곡 <strong id="skyCount">0</strong>곡</div></div><div class="display-controls"><button id="displayPrevBtn" type="button" aria-label="이전 응원곡 페이지">‹ 이전</button><span id="displayPageInfo" role="status" aria-live="polite">1 / 1</span><button id="displayNextBtn" type="button" aria-label="다음 응원곡 페이지">다음 ›</button><button id="fullBtn" type="button">⛶ 전체화면</button><button id="exitDisplayBtn" type="button">참여 화면</button></div><div class="mode-bar" id="modeBar"><button type="button" data-go="playerScreen">♫ 응원곡 이어 듣기</button> <button type="button" id="displayBtn">16:9 전체 화면</button></div><div class="cloud-field" id="cloudField"><div class="empty">응원곡을 불러오는 중입니다...</div></div><div class="sky-bottom"><div class="pager"><button id="prevBtn">‹ 이전</button><span id="pageInfo">1 / 1</span><button id="nextBtn">다음 ›</button></div><button class="main-cta" id="addBtn">+ 나도 응원곡 남기기</button></div><div class="foot">READY, JUMP, FLY! · 가치점프</div></section>
 </div><div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-label="응원곡 상세"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-head"><h3 id="modalTitle"></h3><button class="close" id="closeModal" aria-label="닫기">×</button></div><img id="modalImg" alt="추천곡 YouTube 썸네일"><p class="meta" id="modalBy"></p><div class="message-box" id="modalMessage"></div><a class="youtube" id="modalLink" href="#" target="_blank" rel="noopener noreferrer">▶ YouTube에서 듣기 →</a></div></div>
 <script>
-const UI_EN={"응원의 플레이리스트":"Playlist of Encouragement","응원의 플레이리스트 | 인천공항 가치점프 6기":"Playlist of Encouragement | Incheon Airport Value Jump","인천공항 가치점프 6기":"Incheon Airport Value Jump · Class 6","인천공항 가치점프":"Incheon Airport Value Jump","홈":"Home","응원곡 남기기":"Share a song","플레이리스트":"Playlist","함께 듣기":"Listen together","전시 화면":"Display","미래세대에게 전하는":"For the next generation","플레이리스트 듣기":"Listen to the playlist","노래와 메시지로 미래세대의 든든한 팬이 되어주세요.":"Cheer on the next generation with a song and a message.","함께 들을 응원곡":"A song to share","당신의 응원을 기다려요":"Your encouragement starts here","미래세대를 위한 추천음악":"Music for the next generation","▶ 이 곡 듣기":"▶ Play this song","음악으로 이어지는 응원":"Encouragement through music","홈으로 돌아가기 ↗":"Back to home ↗","함께 듣기 시작":"Start listening together","▶ 재생 시작":"▶ Play","Ⅱ 일시정지":"Ⅱ Pause","다음 곡 ›":"Next song ›","재생을 누르면 등록된 순서대로 이어집니다.":"Press play to listen in the order songs were shared.","다른 화면이나 탭으로 이동하면 일시정지됩니다.":"Playback pauses when you switch screens or tabs.","새 응원곡을 기다리고 있어요.":"Waiting for a new song.","이어 들을 응원곡":"Up next","처음부터 듣기":"Start from the beginning","응원곡을 골라요":"Choose a song","응원의 마음을 담은 노래를 선택해요":"Pick a song that expresses your support.","메시지를 남겨요":"Write a message","미래세대에게 전하고 싶은 응원을 써요":"Share your encouragement for the next generation.","함께 들어요":"Listen together","모인 응원곡으로 플레이리스트가 완성돼요":"Every song helps build our shared playlist.","함께 모은 플레이리스트":"Our shared playlist","모인 응원곡":"Songs shared","곡":"songs","응원 메시지":"Messages","최근 등록된 응원곡":"Recently shared songs","불러오는 중":"Loading","응원곡을 불러오고 있습니다.":"Loading songs…","플레이리스트 전체 보기":"View all songs","마음을 담은 한마디":"Messages from the heart","응원 메시지 전체 보기":"View all messages","등록한 응원은 바로 공개됩니다. 부적절한 내용은 운영사무국에서 삭제할 수 있습니다.":"Submissions are published immediately. The organizing team may remove inappropriate content.","미래세대의 가장 든든한 FAN이 되어주세요.":"Be a supportive fan of the next generation.","응원곡을 남겨주세요 ✈":"Share a song of encouragement ✈","여러분의 노래와 응원이 미래세대가 더 높이 날아오르는 힘이 됩니다.":"Your songs and encouragement help the next generation soar higher.","웹사이트(입력하지 마세요)":"Website (leave blank)","닉네임":"Nickname","추천곡 제목 · 가수":"Song title · Artist","▶ 노래 검색":"▶ Search songs","검색 결과에서 원하는 영상을 선택해주세요.":"Choose a video from the search results.","링크 직접 입력하기":"Enter a link manually","YouTube 영상 링크":"YouTube video link","영상 선택 시 자동 입력됩니다. 직접 붙여넣어도 됩니다.":"Filled in when you select a video. You can also paste a link.","YouTube에서 직접 검색하기 ↗":"Search on YouTube ↗","응원 메시지 · 추천 이유":"Your message · Why you chose this song","0 / 180자":"0 / 180 characters"," / 180자":" / 180 characters","응원곡 등록하기 ✈":"Share your song ✈","여러분의 응원과 노래는 가치점프 참여자들에게 공유될 수 있습니다.":"Your songs and messages may be shared with Value Jump participants.","작성한 닉네임, 노래, 메시지는 누구나 볼 수 있습니다.":"Your nickname, song and message will be publicly visible.","실명·연락처 등 개인정보는 적지 말아주세요.":"Please do not include personal information such as your real name or contact details.","응원 등록 완료":"Thank you for sharing","가치점프 플레이리스트 등록 완료!":"Added to the Value Jump playlist!","여러분의 노래와 응원이 플레이리스트에 공개되었습니다.":"Your song and message are now on the playlist.","목록 반영까지 잠시 걸릴 수 있습니다. 다시 등록하지 않으셔도 됩니다.":"It may take a moment to appear. You do not need to submit it again.","공개된 응원곡 보기":"View shared songs","처음으로":"Back to home","↻ 새로고침":"↻ Refresh","한 곡 한 곡 모여 더 넓은 하늘이 됩니다.":"Together, our songs open up a wider sky.","From. 응원을 보내는 사람　→　To. 미래세대":"From. Supporters → To. The next generation","♫ 지금까지 모인 응원곡":"♫ Songs shared so far","‹ 이전":"‹ Previous","다음 ›":"Next ›","⛶ 전체화면":"⛶ Full screen","참여 화면":"Participation page","♫ 응원곡 이어 듣기":"♫ Listen to the playlist","16:9 전체 화면":"16:9 display","응원곡을 불러오는 중입니다...":"Loading songs…","+ 나도 응원곡 남기기":"+ Share your own song","READY, JUMP, FLY! · 가치점프":"READY, JUMP, FLY! · Value Jump","▶ YouTube에서 듣기 →":"▶ Listen on YouTube →","인천공항 가치점프 홈":"Incheon Airport Value Jump home","주 메뉴":"Main menu","행사장 전시 화면":"Event display","응원곡 재생":"Song player","재생 대기 목록":"Play queue","재생 목록 새로고침":"Refresh play queue","참여 방법":"How to participate","공개된 응원곡과 메시지":"Shared songs and messages","응원 모아보기":"Browse songs and messages","뒤로":"Back","예) 하늘을 응원하는 팬":"e.g. Your biggest fan","예) 아이유 - 밤편지":"e.g. IU - Through the Night","YouTube 검색 결과":"YouTube search results","선택한 YouTube 영상 썸네일":"Selected YouTube video thumbnail","이 노래를 추천하는 이유와 미래세대에게 전하고 싶은 응원을 남겨주세요! (180자 이내)":"Tell us why you chose this song and share your encouragement for the next generation. (Up to 180 characters)","홈으로":"Home","이전 응원곡 페이지":"Previous songs page","다음 응원곡 페이지":"Next songs page","응원곡 상세":"Song and message details","닫기":"Close","추천곡 YouTube 썸네일":"YouTube song thumbnail","목록 갱신에 실패했습니다. 인터넷 연결을 확인해주세요.":"Could not refresh the playlist. Check your internet connection.","응원곡을 불러오지 못했습니다. 잠시 후 새로고침해주세요.":"Could not load songs. Please refresh in a moment.","아직 등록된 응원곡이 없어요. 첫 번째 응원을 남겨주세요!":"No songs yet. Be the first to share one!","님의 응원 메시지 자세히 보기":" — view this message","To. 미래세대":"To. The next generation","추천곡 썸네일":"Song thumbnail"," YouTube에서 열기":" — open on YouTube","응원곡 · YouTube":"Song · YouTube","자세히 ›":"Read more ›","   →   To. 미래세대":" → To. The next generation","검색 중…":"Searching…","추천곡":"Recommended song","이 노래가 응원의 하늘에 올라갑니다.":"This song will join our shared playlist.","✓ 선택됨":"✓ Selected","이 영상 선택":"Select this video","영상이 선택되었습니다. 응원 메시지를 작성한 뒤 등록해주세요.":"Video selected. Write your message, then submit your song.","곡 제목과 가수를 입력해주세요.":"Enter a song title and artist.","YouTube에서 노래를 찾고 있습니다…":"Searching YouTube for songs…","오늘의 검색 한도를 모두 사용했습니다. YouTube에서 검색한 링크를 직접 입력해주세요.":"Today's search limit has been reached. Please find your video on YouTube and paste its link.","검색 요청이 많습니다. 잠시 후 다시 검색하거나 링크를 직접 입력해주세요.":"Too many searches. Try again shortly or paste a YouTube link.","검색에 연결하지 못했습니다. 다시 시도하거나 링크를 직접 입력해주세요.":"Could not connect to search. Try again or paste a YouTube link.","검색 결과를 불러오지 못했습니다. 다시 시도하거나 링크를 직접 입력해주세요.":"Could not load results. Try again or paste a YouTube link.","YouTube 검색 결과 ":"YouTube results: ","개 · 원하는 영상을 선택해주세요.":" · Choose a video.","검색 결과가 없습니다. 곡 제목·가수를 바꾸거나 링크를 직접 입력해주세요.":"No results. Try a different title or artist, or paste a link.","검색 응답이 늦어지고 있습니다. 다시 시도하거나 링크를 직접 입력해주세요.":"Search is taking too long. Try again or paste a link.","잠시 후 다시 시도해주세요.":"Please try again shortly.","너무 빠르게 제출되었습니다. 잠시 후 다시 등록해주세요.":"Please take a moment before submitting.","짧은 시간에 너무 많이 등록했습니다. 잠시 후 다시 시도해주세요.":"You have submitted several songs recently. Please try again later.","조금 뒤에 다시 등록해주세요.":"Please wait a little before submitting again.","연속 등록을 잠시 제한하고 있습니다. 약 ":"Please wait about ","분 후 다시 시도해주세요.":" minute(s) before submitting again.","등록 요청이 몰리고 있습니다. 잠시 후 다시 시도해주세요.":"We are receiving many submissions. Please try again shortly.","오늘의 접수 한도에 도달했습니다. 현장 직원에게 문의해주세요.":"Today's submission limit has been reached. Please contact the event staff.","닉네임, 곡 제목, 메시지와 유튜브 링크를 다시 확인해주세요.":"Please check your nickname, song title, message and YouTube link.","접수 정보가 일치하지 않습니다. 화면을 새로고침한 뒤 다시 시도해주세요.":"Submission details do not match. Refresh the page and try again.","접수 결과를 확인하지 못했습니다. 입력 내용은 남아 있으니 잠시 후 다시 등록을 눌러주세요.":"We could not confirm your submission. Your input is saved on this screen. Please try submitting again shortly.","검색 결과에서 영상을 선택하거나 올바른 YouTube 링크를 입력해주세요.":"Select a video from the results or enter a valid YouTube link.","모든 항목을 입력해주세요.":"Please complete all fields.","응원곡을 등록하고 있습니다…":"Submitting your song…","시연: 응원 등록 완료!":"Demo: song submitted!","이미 처리된 응원입니다":"This submission has already been processed","응원곡이 접수되었습니다!":"Your song has been received!","시연 화면입니다. 실제로 저장되지는 않았습니다.":"This is a demo. Nothing has been saved.","시연용 화면 · 입력한 내용은 저장되지 않습니다":"Demo · Your input will not be saved","운영사무국에서 삭제한 응원입니다. 같은 요청으로 다시 등록되지 않습니다.":"The organizing team removed this submission. Retrying will not restore it.","이 응원은 이전 승인 대기 방식으로 접수되어 아직 공개되지 않았습니다.":"This earlier submission is still awaiting review and is not public yet.","연결 확인 필요":"Check connection","응원곡을 불러오지 못했어요. 잠시 후 다시 확인해주세요.":"Could not load songs. Please try again shortly.","시연 데이터":"Demo content","30초마다 갱신":"Updates every 30 seconds"," 응원곡 정보 보기":" — view song details"," 홈에서 재생":" — play on this site","아직 공개된 응원곡이 없어요. 첫 번째 응원을 남겨주세요!":"No shared songs yet. Be the first to share one!","지금 함께 듣는 곡":"Now playing together","잠시 쉬어가는 중":"Paused","지금 재생 중":"Now playing","일시정지 · 이어서 들어보세요":"Paused · Ready to resume","▶ 플레이리스트 듣기":"▶ Listen to the playlist","응원곡 일시정지":"Pause song","▶ 이어서 듣기":"▶ Resume","일시정지했습니다.":"Playback paused.","새로운 응원곡을 기다리고 있어요.":"Waiting for new songs.","이후 ":"Another ","곡이 더 기다리고 있습니다.":" song(s) waiting.","운영사무국에서 삭제한 응원곡을 재생 목록에서 제외했습니다.":"A song removed by the organizing team has been taken out of the queue.","초마다 갱신":"-second refresh","대기 중인 곡을 모두 들었어요. 새 곡이 등록되면 이어서 재생합니다.":"You have heard all queued songs. New songs will play as they arrive.","응원곡을 불러오고 있습니다…":"Loading songs…","YouTube 연결이 지연되고 있습니다. 다시 재생 시작을 눌러주세요.":"YouTube is taking too long to connect. Please press play again.","YouTube에 연결하지 못했습니다. 인터넷 연결을 확인해주세요.":"Could not connect to YouTube. Check your internet connection.","아직 재생할 곡이 없습니다. 새 응원곡이 등록되면 이어서 재생합니다.":"No songs to play yet. New songs will play as they arrive.","응원곡 YouTube 영상":"YouTube song video","새 응원곡을 기다리고 있습니다.":"Waiting for a new song.","영상 플레이어를 열지 못했습니다. 다시 재생 시작을 눌러주세요.":"Could not open the video player. Please press play again.","화면으로 돌아온 뒤 재생 시작을 눌러주세요.":"Return to the player and press play.","지금 함께 듣고 있어요. 새 곡은 뒤에서 기다립니다.":"Now listening together. New songs join the queue.","▶ 이어서 재생":"▶ Resume","일시정지 중입니다. 재생 시작을 누르면 이어서 듣습니다.":"Paused. Press play to resume.","브라우저가 자동 재생을 막았습니다. 영상의 ▶ 버튼 또는 재생 시작을 눌러주세요.":"Your browser blocked autoplay. Press ▶ on the video or press play.","이 영상은 사이트에서 재생할 수 없어 다음 곡으로 넘어갑니다.":"This video cannot play here. Skipping to the next song.","재생할 수 없는 영상이 연속으로 나왔습니다. 다음 곡 버튼으로 확인해주세요.":"Several videos could not play. Use Next song to continue.","YouTube에서 사이트 주소를 확인하지 못했습니다. 배포된 사이트에서 다시 열어주세요.":"YouTube could not verify the site address. Please use the published website.","영상 재생이 중단되었습니다. 다시 재생하거나 다음 곡을 눌러주세요.":"Playback stopped. Try again or choose the next song.","영상이 보이는 위치에서 재생 시작을 눌러주세요.":"Keep the video in view, then press play.","YouTube 플레이어를 준비하고 있습니다…":"Preparing the YouTube player…","처음부터 준비했습니다. 재생 시작을 눌러주세요.":"Ready to start from the beginning. Press play.","영상이 보이지 않아 일시정지했습니다. 재생 화면에서 다시 시작해주세요.":"Paused because the video is out of view. Return to the player to resume.","다른 탭으로 이동해 일시정지했습니다.":"Paused because you switched tabs.","다른 화면으로 이동해 일시정지했습니다.":"Paused because you switched screens."};
+const UI_EN={"크게 보기":"Expand","재생 중지하고 닫기":"Pause and close player","별도 창에서 듣기":"Listen in a separate window","별도 창에서 듣기 ↗":"Open player window ↗","다른 메뉴에서도 작은 영상으로 계속 들을 수 있어요. 창을 최소화하거나 다른 탭으로 이동하면 일시정지됩니다.":"Keep listening in the mini player while browsing this site. Minimizing the window or switching tabs pauses playback.","별도 재생 창에서 재생 시작을 눌러주세요.":"Press play in the separate player window.","새 창이 차단되었습니다. 브라우저에서 팝업을 허용한 뒤 다시 눌러주세요.":"The new window was blocked. Allow pop-ups for this site and try again.","응원의 플레이리스트":"Playlist of Encouragement","응원의 플레이리스트 | 인천공항 가치점프 6기":"Playlist of Encouragement | Incheon Airport Value Jump","인천공항 가치점프 6기":"Incheon Airport Value Jump · Class 6","인천공항 가치점프":"Incheon Airport Value Jump","홈":"Home","응원곡 남기기":"Share a song","플레이리스트":"Playlist","함께 듣기":"Listen together","전시 화면":"Display","미래세대에게 전하는":"For the next generation","플레이리스트 듣기":"Listen to the playlist","노래와 메시지로 미래세대의 든든한 팬이 되어주세요.":"Cheer on the next generation with a song and a message.","함께 들을 응원곡":"A song to share","당신의 응원을 기다려요":"Your encouragement starts here","미래세대를 위한 추천음악":"Music for the next generation","▶ 이 곡 듣기":"▶ Play this song","음악으로 이어지는 응원":"Encouragement through music","홈으로 돌아가기 ↗":"Back to home ↗","함께 듣기 시작":"Start listening together","▶ 재생 시작":"▶ Play","Ⅱ 일시정지":"Ⅱ Pause","다음 곡 ›":"Next song ›","재생을 누르면 등록된 순서대로 이어집니다.":"Press play to listen in the order songs were shared.","다른 화면이나 탭으로 이동하면 일시정지됩니다.":"Playback pauses when you switch screens or tabs.","새 응원곡을 기다리고 있어요.":"Waiting for a new song.","이어 들을 응원곡":"Up next","처음부터 듣기":"Start from the beginning","응원곡을 골라요":"Choose a song","응원의 마음을 담은 노래를 선택해요":"Pick a song that expresses your support.","메시지를 남겨요":"Write a message","미래세대에게 전하고 싶은 응원을 써요":"Share your encouragement for the next generation.","함께 들어요":"Listen together","모인 응원곡으로 플레이리스트가 완성돼요":"Every song helps build our shared playlist.","함께 모은 플레이리스트":"Our shared playlist","모인 응원곡":"Songs shared","곡":"songs","응원 메시지":"Messages","최근 등록된 응원곡":"Recently shared songs","불러오는 중":"Loading","응원곡을 불러오고 있습니다.":"Loading songs…","플레이리스트 전체 보기":"View all songs","마음을 담은 한마디":"Messages from the heart","응원 메시지 전체 보기":"View all messages","등록한 응원은 바로 공개됩니다. 부적절한 내용은 운영사무국에서 삭제할 수 있습니다.":"Submissions are published immediately. The organizing team may remove inappropriate content.","미래세대의 가장 든든한 FAN이 되어주세요.":"Be a supportive fan of the next generation.","응원곡을 남겨주세요 ✈":"Share a song of encouragement ✈","여러분의 노래와 응원이 미래세대가 더 높이 날아오르는 힘이 됩니다.":"Your songs and encouragement help the next generation soar higher.","웹사이트(입력하지 마세요)":"Website (leave blank)","닉네임":"Nickname","추천곡 제목 · 가수":"Song title · Artist","▶ 노래 검색":"▶ Search songs","검색 결과에서 원하는 영상을 선택해주세요.":"Choose a video from the search results.","링크 직접 입력하기":"Enter a link manually","YouTube 영상 링크":"YouTube video link","영상 선택 시 자동 입력됩니다. 직접 붙여넣어도 됩니다.":"Filled in when you select a video. You can also paste a link.","YouTube에서 직접 검색하기 ↗":"Search on YouTube ↗","응원 메시지 · 추천 이유":"Your message · Why you chose this song","0 / 180자":"0 / 180 characters"," / 180자":" / 180 characters","응원곡 등록하기 ✈":"Share your song ✈","여러분의 응원과 노래는 가치점프 참여자들에게 공유될 수 있습니다.":"Your songs and messages may be shared with Value Jump participants.","작성한 닉네임, 노래, 메시지는 누구나 볼 수 있습니다.":"Your nickname, song and message will be publicly visible.","실명·연락처 등 개인정보는 적지 말아주세요.":"Please do not include personal information such as your real name or contact details.","응원 등록 완료":"Thank you for sharing","가치점프 플레이리스트 등록 완료!":"Added to the Value Jump playlist!","여러분의 노래와 응원이 플레이리스트에 공개되었습니다.":"Your song and message are now on the playlist.","목록 반영까지 잠시 걸릴 수 있습니다. 다시 등록하지 않으셔도 됩니다.":"It may take a moment to appear. You do not need to submit it again.","공개된 응원곡 보기":"View shared songs","처음으로":"Back to home","↻ 새로고침":"↻ Refresh","한 곡 한 곡 모여 더 넓은 하늘이 됩니다.":"Together, our songs open up a wider sky.","From. 응원을 보내는 사람　→　To. 미래세대":"From. Supporters → To. The next generation","♫ 지금까지 모인 응원곡":"♫ Songs shared so far","‹ 이전":"‹ Previous","다음 ›":"Next ›","⛶ 전체화면":"⛶ Full screen","참여 화면":"Participation page","♫ 응원곡 이어 듣기":"♫ Listen to the playlist","16:9 전체 화면":"16:9 display","응원곡을 불러오는 중입니다...":"Loading songs…","+ 나도 응원곡 남기기":"+ Share your own song","READY, JUMP, FLY! · 가치점프":"READY, JUMP, FLY! · Value Jump","▶ YouTube에서 듣기 →":"▶ Listen on YouTube →","인천공항 가치점프 홈":"Incheon Airport Value Jump home","주 메뉴":"Main menu","행사장 전시 화면":"Event display","응원곡 재생":"Song player","재생 대기 목록":"Play queue","재생 목록 새로고침":"Refresh play queue","참여 방법":"How to participate","공개된 응원곡과 메시지":"Shared songs and messages","응원 모아보기":"Browse songs and messages","뒤로":"Back","예) 하늘을 응원하는 팬":"e.g. Your biggest fan","예) 아이유 - 밤편지":"e.g. IU - Through the Night","YouTube 검색 결과":"YouTube search results","선택한 YouTube 영상 썸네일":"Selected YouTube video thumbnail","이 노래를 추천하는 이유와 미래세대에게 전하고 싶은 응원을 남겨주세요! (180자 이내)":"Tell us why you chose this song and share your encouragement for the next generation. (Up to 180 characters)","홈으로":"Home","이전 응원곡 페이지":"Previous songs page","다음 응원곡 페이지":"Next songs page","응원곡 상세":"Song and message details","닫기":"Close","추천곡 YouTube 썸네일":"YouTube song thumbnail","목록 갱신에 실패했습니다. 인터넷 연결을 확인해주세요.":"Could not refresh the playlist. Check your internet connection.","응원곡을 불러오지 못했습니다. 잠시 후 새로고침해주세요.":"Could not load songs. Please refresh in a moment.","아직 등록된 응원곡이 없어요. 첫 번째 응원을 남겨주세요!":"No songs yet. Be the first to share one!","님의 응원 메시지 자세히 보기":" — view this message","To. 미래세대":"To. The next generation","추천곡 썸네일":"Song thumbnail"," YouTube에서 열기":" — open on YouTube","응원곡 · YouTube":"Song · YouTube","자세히 ›":"Read more ›","   →   To. 미래세대":" → To. The next generation","검색 중…":"Searching…","추천곡":"Recommended song","이 노래가 응원의 하늘에 올라갑니다.":"This song will join our shared playlist.","✓ 선택됨":"✓ Selected","이 영상 선택":"Select this video","영상이 선택되었습니다. 응원 메시지를 작성한 뒤 등록해주세요.":"Video selected. Write your message, then submit your song.","곡 제목과 가수를 입력해주세요.":"Enter a song title and artist.","YouTube에서 노래를 찾고 있습니다…":"Searching YouTube for songs…","오늘의 검색 한도를 모두 사용했습니다. YouTube에서 검색한 링크를 직접 입력해주세요.":"Today's search limit has been reached. Please find your video on YouTube and paste its link.","검색 요청이 많습니다. 잠시 후 다시 검색하거나 링크를 직접 입력해주세요.":"Too many searches. Try again shortly or paste a YouTube link.","검색에 연결하지 못했습니다. 다시 시도하거나 링크를 직접 입력해주세요.":"Could not connect to search. Try again or paste a YouTube link.","검색 결과를 불러오지 못했습니다. 다시 시도하거나 링크를 직접 입력해주세요.":"Could not load results. Try again or paste a YouTube link.","YouTube 검색 결과 ":"YouTube results: ","개 · 원하는 영상을 선택해주세요.":" · Choose a video.","검색 결과가 없습니다. 곡 제목·가수를 바꾸거나 링크를 직접 입력해주세요.":"No results. Try a different title or artist, or paste a link.","검색 응답이 늦어지고 있습니다. 다시 시도하거나 링크를 직접 입력해주세요.":"Search is taking too long. Try again or paste a link.","잠시 후 다시 시도해주세요.":"Please try again shortly.","너무 빠르게 제출되었습니다. 잠시 후 다시 등록해주세요.":"Please take a moment before submitting.","짧은 시간에 너무 많이 등록했습니다. 잠시 후 다시 시도해주세요.":"You have submitted several songs recently. Please try again later.","조금 뒤에 다시 등록해주세요.":"Please wait a little before submitting again.","연속 등록을 잠시 제한하고 있습니다. 약 ":"Please wait about ","분 후 다시 시도해주세요.":" minute(s) before submitting again.","등록 요청이 몰리고 있습니다. 잠시 후 다시 시도해주세요.":"We are receiving many submissions. Please try again shortly.","오늘의 접수 한도에 도달했습니다. 현장 직원에게 문의해주세요.":"Today's submission limit has been reached. Please contact the event staff.","닉네임, 곡 제목, 메시지와 유튜브 링크를 다시 확인해주세요.":"Please check your nickname, song title, message and YouTube link.","접수 정보가 일치하지 않습니다. 화면을 새로고침한 뒤 다시 시도해주세요.":"Submission details do not match. Refresh the page and try again.","접수 결과를 확인하지 못했습니다. 입력 내용은 남아 있으니 잠시 후 다시 등록을 눌러주세요.":"We could not confirm your submission. Your input is saved on this screen. Please try submitting again shortly.","검색 결과에서 영상을 선택하거나 올바른 YouTube 링크를 입력해주세요.":"Select a video from the results or enter a valid YouTube link.","모든 항목을 입력해주세요.":"Please complete all fields.","응원곡을 등록하고 있습니다…":"Submitting your song…","시연: 응원 등록 완료!":"Demo: song submitted!","이미 처리된 응원입니다":"This submission has already been processed","응원곡이 접수되었습니다!":"Your song has been received!","시연 화면입니다. 실제로 저장되지는 않았습니다.":"This is a demo. Nothing has been saved.","시연용 화면 · 입력한 내용은 저장되지 않습니다":"Demo · Your input will not be saved","운영사무국에서 삭제한 응원입니다. 같은 요청으로 다시 등록되지 않습니다.":"The organizing team removed this submission. Retrying will not restore it.","이 응원은 이전 승인 대기 방식으로 접수되어 아직 공개되지 않았습니다.":"This earlier submission is still awaiting review and is not public yet.","연결 확인 필요":"Check connection","응원곡을 불러오지 못했어요. 잠시 후 다시 확인해주세요.":"Could not load songs. Please try again shortly.","시연 데이터":"Demo content","30초마다 갱신":"Updates every 30 seconds"," 응원곡 정보 보기":" — view song details"," 홈에서 재생":" — play on this site","아직 공개된 응원곡이 없어요. 첫 번째 응원을 남겨주세요!":"No shared songs yet. Be the first to share one!","지금 함께 듣는 곡":"Now playing together","잠시 쉬어가는 중":"Paused","지금 재생 중":"Now playing","일시정지 · 이어서 들어보세요":"Paused · Ready to resume","▶ 플레이리스트 듣기":"▶ Listen to the playlist","응원곡 일시정지":"Pause song","▶ 이어서 듣기":"▶ Resume","일시정지했습니다.":"Playback paused.","새로운 응원곡을 기다리고 있어요.":"Waiting for new songs.","이후 ":"Another ","곡이 더 기다리고 있습니다.":" song(s) waiting.","운영사무국에서 삭제한 응원곡을 재생 목록에서 제외했습니다.":"A song removed by the organizing team has been taken out of the queue.","초마다 갱신":"-second refresh","대기 중인 곡을 모두 들었어요. 새 곡이 등록되면 이어서 재생합니다.":"You have heard all queued songs. New songs will play as they arrive.","응원곡을 불러오고 있습니다…":"Loading songs…","YouTube 연결이 지연되고 있습니다. 다시 재생 시작을 눌러주세요.":"YouTube is taking too long to connect. Please press play again.","YouTube에 연결하지 못했습니다. 인터넷 연결을 확인해주세요.":"Could not connect to YouTube. Check your internet connection.","아직 재생할 곡이 없습니다. 새 응원곡이 등록되면 이어서 재생합니다.":"No songs to play yet. New songs will play as they arrive.","응원곡 YouTube 영상":"YouTube song video","새 응원곡을 기다리고 있습니다.":"Waiting for a new song.","영상 플레이어를 열지 못했습니다. 다시 재생 시작을 눌러주세요.":"Could not open the video player. Please press play again.","화면으로 돌아온 뒤 재생 시작을 눌러주세요.":"Return to the player and press play.","지금 함께 듣고 있어요. 새 곡은 뒤에서 기다립니다.":"Now listening together. New songs join the queue.","▶ 이어서 재생":"▶ Resume","일시정지 중입니다. 재생 시작을 누르면 이어서 듣습니다.":"Paused. Press play to resume.","브라우저가 자동 재생을 막았습니다. 영상의 ▶ 버튼 또는 재생 시작을 눌러주세요.":"Your browser blocked autoplay. Press ▶ on the video or press play.","이 영상은 사이트에서 재생할 수 없어 다음 곡으로 넘어갑니다.":"This video cannot play here. Skipping to the next song.","재생할 수 없는 영상이 연속으로 나왔습니다. 다음 곡 버튼으로 확인해주세요.":"Several videos could not play. Use Next song to continue.","YouTube에서 사이트 주소를 확인하지 못했습니다. 배포된 사이트에서 다시 열어주세요.":"YouTube could not verify the site address. Please use the published website.","영상 재생이 중단되었습니다. 다시 재생하거나 다음 곡을 눌러주세요.":"Playback stopped. Try again or choose the next song.","영상이 보이는 위치에서 재생 시작을 눌러주세요.":"Keep the video in view, then press play.","YouTube 플레이어를 준비하고 있습니다…":"Preparing the YouTube player…","처음부터 준비했습니다. 재생 시작을 눌러주세요.":"Ready to start from the beginning. Press play.","영상이 보이지 않아 일시정지했습니다. 재생 화면에서 다시 시작해주세요.":"Paused because the video is out of view. Return to the player to resume.","다른 탭으로 이동해 일시정지했습니다.":"Paused because you switched tabs.","다른 화면으로 이동해 일시정지했습니다.":"Paused because you switched screens.","영상 접기":"Hide video","영상 열기":"Show video","영상이 접혀 일시정지 중입니다. 재생하면 영상도 다시 열립니다.":"Paused with video hidden. Press play to reopen the video."};
 let uiLanguage='ko';
 try{if(localStorage.getItem('cheerLanguage')==='en')uiLanguage='en';}catch{}
 function uiText(key){return uiLanguage==='en'?(UI_EN[key]??key):key;}
 function initializeLanguage(){
   const textBindings=[],attributeBindings=[],blocks=[];
   // Capture only original page labels. User content is rendered separately and is never translated.
-  const userContent='#homeTracks,#homeMessageList,#cloudField,#searchResults,#queueList,#featuredTitle,#featuredSender,#nowTitle,#nowFrom,#nowMessage,#previewText,#modalTitle,#modalBy,#modalMessage';
+  const userContent='#homeTracks,#homeMessageList,#cloudField,#searchResults,#queueList,#featuredTitle,#featuredSender,#nowTitle,#nowFrom,#nowMessage,#miniTitle,#previewText,#modalTitle,#modalBy,#modalMessage';
   document.querySelectorAll('[data-ui-en]').forEach(el=>blocks.push({el,html:el.innerHTML,en:el.dataset.uiEn}));
   const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
   for(let node=walker.nextNode();node;node=walker.nextNode()){
@@ -397,6 +461,8 @@ function updateCount(n){$('homeCount').textContent=n;$('skyCount').textContent=n
 async function request(url,options={}){const response=await fetch(url,{...options,headers:{...headers(),...(options.headers||{})}});if(!response.ok){let detail='';try{const data=await response.json();detail=data.message||data.error||''}catch{}throw Error('서버 응답 '+response.status+(detail?' · '+detail:''))}return response}
 let loadInFlight=null;
 let displaySnapshotReady=false,displayArrivalPending=false,lastDisplayArrivalAt=0,loadHadError=false;
+// The ordinary playlist view also reveals new arrivals within the next five-second check.
+setInterval(()=>{if(!DISPLAY_MODE&&mode==='live'&&!document.hidden&&$('skyScreen').classList.contains('active'))load();},5000);
 function load(){
   if(mode==='demo'){render();if(playbackInitialized)syncPlayback();return Promise.resolve();}
   if(loadInFlight)return loadInFlight;
@@ -418,15 +484,16 @@ function load(){
       const nextItems=[...new Map(collected.map(item=>[String(item.id),item])).values()].reverse();
       const changed=JSON.stringify(nextItems)!==JSON.stringify(items);
       const firstDisplayLoad=DISPLAY_MODE&&!displaySnapshotReady;
-      if(DISPLAY_MODE){
+      const exhibitionOpen=DISPLAY_MODE||$('skyScreen').classList.contains('active');
+      {
         const previousIds=new Set(items.map(item=>String(item.id)));
-        if(displaySnapshotReady&&nextItems.some(item=>!previousIds.has(String(item.id))))displayArrivalPending=true;
+        if(exhibitionOpen&&displaySnapshotReady&&nextItems.some(item=>!previousIds.has(String(item.id))))displayArrivalPending=true;
         displaySnapshotReady=true;
       }
       items=nextItems;
       let revealArrival=false;
       // Keep an open message readable; show new arrivals at the next check after it closes.
-      if(DISPLAY_MODE&&displayArrivalPending&&!$('overlay').classList.contains('show')){
+      if(exhibitionOpen&&displayArrivalPending&&!$('overlay').classList.contains('show')){
         page=0;displayArrivalPending=false;lastDisplayArrivalAt=Date.now();revealArrival=true;
       }
       // Unchanged exhibition cards keep their DOM, avoiding flashing or lost keyboard focus.
@@ -643,7 +710,32 @@ if(DISPLAY_MODE){show('skyScreen');setInterval(()=>{if(!document.hidden&&!$('ove
 // Queue state belongs to this browser. A successful snapshot removes staff-deleted entries.
 const playback={player:null,ready:false,initializing:false,current:null,queue:[],done:new Set(),running:false,visible:false,apiPromise:null,errors:0,epoch:0,armed:null};
 var playbackInitialized=true;
-function playerActive(){return $('home').classList.contains('active')&&!$('homePlayback').hidden;}
+function playerActive(){return !$('homePlayback').hidden;}
+let listeningWindow=null;
+const detachedPlayer=new URLSearchParams(location.search).get('playerWindow')==='1';
+let requestedSong=new URLSearchParams(location.search).get('song');
+let requestedStart=Math.max(0,Math.min(86400,Number(new URLSearchParams(location.search).get('start'))||0));
+function measurePlayerVisibility(){
+  const box=$('playerMount').getBoundingClientRect();
+  playback.visible=box.width>=200&&box.height>=200&&Math.min(box.bottom,innerHeight)-Math.max(box.top,0)>box.height/2;
+}
+function setMiniPlayer(mini){
+  if(!mini)setPlayerFolded(false);
+  $('homePlayback').classList.toggle('mini-player',mini);
+  $('homePlayback').querySelector('.mini-heading').hidden=!mini;
+  document.body.classList.toggle('has-mini-player',mini);
+  if(mini){$('home').classList.remove('listening-open');$('homeRecord').classList.remove('has-player');}
+  measurePlayerVisibility();
+}
+function setPlayerFolded(folded){
+  if(folded)pausePlayback();
+  $('homePlayback').classList.toggle('bar-only',folded);
+  document.body.classList.toggle('player-bar-folded',folded);
+  $('foldPlayer').textContent=folded?uiText('영상 열기'):uiText('영상 접기');
+  $('foldPlayer').setAttribute('aria-expanded',String(!folded));
+  if(folded)playerNote(uiText('영상이 접혀 일시정지 중입니다. 재생하면 영상도 다시 열립니다.'));
+  measurePlayerVisibility();
+}
 function setRecordPlaying(playing){
   $('homeRecord').classList.toggle('is-playing',playing);
   $('homePlayback').classList.toggle('is-playing',playing);
@@ -657,7 +749,12 @@ function setRecordPlaying(playing){
 function revealHomePlayer(){
   if(!$('home').classList.contains('active'))show('home');
   $('homePlayback').hidden=false;$('homeRecord').classList.add('has-player');
+  setMiniPlayer(false);
   $('home').classList.add('listening-open');
+  document.querySelectorAll('.site-nav [data-go]').forEach(button=>{
+    if(button.dataset.go==='playerScreen')button.setAttribute('aria-current','page');
+    else button.removeAttribute('aria-current');
+  });
 }
 async function playHomeItem(item){
   if(!publicHomeItems().some(row=>keyOf(row)===keyOf(item)))return;
@@ -693,6 +790,7 @@ function paintCurrent(){
   $('nowTitle').textContent=item?item.song_title:uiText('새 응원곡을 기다리고 있어요.');
   $('nowFrom').textContent=item?'From. '+item.nickname:'';
   $('nowMessage').textContent=item?item.message:'';
+  $('miniTitle').textContent=item?item.song_title:uiText('함께 듣기');
   for(const id of ['listeningCover','playerPoster']){const img=$(id);if(!img)continue;img.hidden=!item;if(item)img.src=thumbnail(item.video_id);else img.removeAttribute('src');}
   paintFeatured();
 }
@@ -711,7 +809,16 @@ function syncPlayback(){
   if(removed){playback.done.add(keyOf(playback.current));playback.current=null;playback.epoch++;if(playback.ready)playback.player.stopVideo();paintCurrent();playerNote(uiText('운영사무국에서 삭제한 응원곡을 재생 목록에서 제외했습니다.'));}
   else if(playback.current){playback.current=fresh.get(keyOf(playback.current));paintCurrent();}
   playback.queue=ordered.filter(item=>!playback.done.has(keyOf(item))&&keyOf(item)!==keyOf(playback.current||{id:''}));
+  if(requestedSong&&ordered.length){
+    const target=ordered.find(item=>keyOf(item)===requestedSong);
+    if(target){for(const item of ordered)if(BigInt(item.id)<BigInt(target.id))playback.done.add(keyOf(item));playback.queue=ordered.filter(item=>!playback.done.has(keyOf(item)));}
+    else requestedStart=0;
+    requestedSong=null;
+  }
   paintQueue();paintCurrent();$('queueFresh').textContent=(playerActive()?'10':'30')+uiText('초마다 갱신');
+  if(playback.running&&!playback.current&&playback.queue.length&&!playback.ready){
+    $('homePlayback').classList.add('video-requested');measurePlayerVisibility();
+  }
   if(playback.running&&!playback.current&&mayPlay()){
     if(playback.ready)advancePlayback();else if(playback.queue.length)initializePlayer();
   }
@@ -724,7 +831,8 @@ function advancePlayback(){
   if(!playback.current){playback.player.stopVideo();playerNote(uiText('대기 중인 곡을 모두 들었어요. 새 곡이 등록되면 이어서 재생합니다.'));return;}
   if(playback.running&&mayPlay()){
     playerNote(uiText('응원곡을 불러오고 있습니다…'));
-    playback.player.loadVideoById(playback.current.video_id);
+    if(requestedStart){playback.player.loadVideoById({videoId:playback.current.video_id,startSeconds:requestedStart});requestedStart=0;}
+    else playback.player.loadVideoById(playback.current.video_id);
   }else{playback.player.cueVideoById(playback.current.video_id);}
 }
 function youtubeAPI(){
@@ -740,7 +848,7 @@ function youtubeAPI(){
 }
 async function initializePlayer(){
   if(playback.ready||playback.initializing)return;
-  if(!playback.queue.length){playerNote(uiText('아직 재생할 곡이 없습니다. 새 응원곡이 등록되면 이어서 재생합니다.'));return;}
+  if(!playback.queue.length){$('homePlayback').classList.remove('video-requested');playerNote(uiText('아직 재생할 곡이 없습니다. 새 응원곡이 등록되면 이어서 재생합니다.'));return;}
   playback.initializing=true;
   try{
     await youtubeAPI();
@@ -779,10 +887,12 @@ async function initializePlayer(){
   }catch(e){pausePlayback(e.message);}finally{playback.initializing=false;}
 }
 async function startPlayback(){
-  revealHomePlayer();
-  window.scrollTo({top:0,behavior:'instant'});
+  $('homePlayback').classList.add('video-requested');
+  setPlayerFolded(false);
+  if(!playerActive())revealHomePlayer();
+  if(!$('homePlayback').classList.contains('mini-player'))window.scrollTo({top:0,behavior:'instant'});
   // Measure synchronously as IntersectionObserver may not yet have delivered the scroll update.
-  const box=$('playerMount').getBoundingClientRect();playback.visible=Math.min(box.bottom,innerHeight)-Math.max(box.top,0)>box.height/2;
+  measurePlayerVisibility();
   if(!mayPlay()){playerNote(uiText('영상이 보이는 위치에서 재생 시작을 눌러주세요.'));return;}
   playback.running=true;playback.errors=0;
   if(!playback.ready){playerNote(uiText('YouTube 플레이어를 준비하고 있습니다…'));await initializePlayer();return;}
@@ -791,6 +901,23 @@ async function startPlayback(){
 $('playerStart').onclick=startPlayback;
 $('playerPlaceholder').onclick=startPlayback;
 $('closeListening').onclick=()=>{show('home');$('homeListen').focus({preventScroll:true});};
+$('expandPlayer').onclick=()=>show('playerScreen');
+$('foldPlayer').onclick=()=>setPlayerFolded(!$('homePlayback').classList.contains('bar-only'));
+$('closeMiniPlayer').onclick=()=>{
+  pausePlayback(uiText('일시정지했습니다.'));setMiniPlayer(false);$('homePlayback').hidden=true;
+  document.querySelector('.site-nav [aria-current="page"]')?.focus({preventScroll:true});
+};
+$('openPlayerWindow').onclick=()=>{
+  if(listeningWindow&&!listeningWindow.closed){pausePlayback(uiText('별도 재생 창에서 재생 시작을 눌러주세요.'));listeningWindow.focus();return;}
+  const url=new URL(location.href);url.searchParams.delete('display');url.searchParams.set('player','1');url.searchParams.set('playerWindow','1');
+  if(playback.current){url.searchParams.set('song',keyOf(playback.current));let position=0;try{position=playback.player.getCurrentTime?.()||0;}catch{}url.searchParams.set('start',String(Math.floor(position)));}
+  else{url.searchParams.delete('song');url.searchParams.delete('start');}
+  listeningWindow=window.open(url.toString(),'valueJumpListening','popup,width=640,height=820,resizable=yes,scrollbars=yes');
+  if(!listeningWindow){playerNote(uiText('새 창이 차단되었습니다. 브라우저에서 팝업을 허용한 뒤 다시 눌러주세요.'));return;}
+  pausePlayback(uiText('별도 재생 창에서 재생 시작을 눌러주세요.'));
+  listeningWindow.focus();
+};
+$('miniOpenWindow').onclick=()=>$('openPlayerWindow').click();
 $('homeListen').onclick=()=>playback.running?pausePlayback(uiText('일시정지했습니다.')):startPlayback();
 $('playerPause').onclick=()=>pausePlayback(uiText('일시정지했습니다.'));
 $('playerNext').onclick=()=>{playback.errors=0;advancePlayback();};
@@ -804,11 +931,15 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden&&playback.r
 const showBeforePlayback=show;
 show=function(name){
   const listen=name==='playerScreen';if(listen)name='home';
-  if(name==='home'&&!listen&&$('home').classList.contains('listening-open')){pausePlayback(uiText('일시정지했습니다.'));$('homePlayback').hidden=true;$('home').classList.remove('listening-open');$('homeRecord').classList.remove('has-player');}
-  if(name!=='home'&&(playback.running||playback.ready))pausePlayback(uiText('다른 화면으로 이동해 일시정지했습니다.'));
+  if(!listen&&playerActive()){
+    if(playback.running||playback.current||playback.initializing)setMiniPlayer(true);
+    else{setMiniPlayer(false);$('homePlayback').hidden=true;$('home').classList.remove('listening-open');$('homeRecord').classList.remove('has-player');}
+  }
   showBeforePlayback(name);
+  measurePlayerVisibility();
   if(listen){revealHomePlayer();syncPlayback();load();window.scrollTo({top:0,behavior:'instant'});(playback.running?$('playerPause'):$('playerStart')).focus({preventScroll:true});}
 };
+if(detachedPlayer){document.body.classList.add('player-window');$('openPlayerWindow').hidden=true;$('closeListening').hidden=true;}
 syncPlayback();
 setInterval(()=>{if(playerActive()&&mode==='live'&&!document.hidden)load();},10000);
 if(new URLSearchParams(location.search).get('player')==='1'&&!DISPLAY_MODE)show('playerScreen');
