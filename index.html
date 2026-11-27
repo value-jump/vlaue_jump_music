@@ -460,8 +460,8 @@ const SUPABASE_URL='https://dufovbfllqlblvaaysrt.supabase.co';
 const SUPABASE_KEY='sb_publishable_KSojq_LCnx9yimDzkzzdrw_MF4Y64CI';
 const SUBMIT_ENDPOINT=SUPABASE_URL+'/functions/v1/cheers-submit';
 const ENDPOINT=SUPABASE_URL+'/rest/v1/cheers';
-const DISPLAY_MODE=new URLSearchParams(location.search).get('display')==='1';
-const PER_PAGE=DISPLAY_MODE?20:4;
+let DISPLAY_MODE=new URLSearchParams(location.search).get('display')==='1';
+let PER_PAGE=DISPLAY_MODE?20:4;
 let items=[],page=0,mode='live',refreshTimer=null,formShownAt=0;
 if(DISPLAY_MODE)document.body.classList.add('display-mode');
 const $=id=>document.getElementById(id);
@@ -475,7 +475,7 @@ async function request(url,options={}){const response=await fetch(url,{...option
 let loadInFlight=null;
 let displaySnapshotReady=false,displayArrivalPending=false,lastDisplayArrivalAt=0,loadHadError=false;
 // The ordinary playlist view also reveals new arrivals within the next five-second check.
-setInterval(()=>{if(!DISPLAY_MODE&&mode==='live'&&!document.hidden&&$('skyScreen').classList.contains('active'))load();},5000);
+setInterval(()=>{if(mode==='live'&&!document.hidden&&$('skyScreen').classList.contains('active'))load();},5000);
 function load(){
   if(mode==='demo'){render();if(playbackInitialized)syncPlayback();return Promise.resolve();}
   if(loadInFlight)return loadInFlight;
@@ -724,10 +724,10 @@ $('overlay').addEventListener('keydown',e=>{
 
 // URL 끝에 ?demo=1을 붙이면 저장 없이 시연할 수 있습니다. 일반 접속은 실제 DB를 사용합니다.
 if(new URLSearchParams(location.search).get('demo')==='1'){mode='demo';$('demoBanner').classList.add('show');const samples=[['하늘을 응원하는 팬','아이유 - 밤편지','지금도 충분히 잘하고 있어요. 여러분의 꿈을 응원합니다!','dQw4w9WgXcQ'],['점프팬','DAY6 - 한 페이지가 될 수 있게','오늘의 도전이 내일의 멋진 한 페이지가 되기를!','dQw4w9WgXcQ'],['비행기 구름','응원하는 노래','힘들 때 이 노래를 듣고 다시 힘을 내세요.','dQw4w9WgXcQ'],['미래를 응원해','나의 플레이리스트','언제나 여러분의 편에서 응원할게요!','dQw4w9WgXcQ']];items=samples.map((s,i)=>({id:i,nickname:s[0],song_title:s[1],message:s[2],video_id:s[3]}));updateCount(items.length)}else{load()}
-refreshTimer=setInterval(()=>{if(mode==='live'&&!document.hidden&&($('skyScreen').classList.contains('active')||$('home').classList.contains('active')))load()},DISPLAY_MODE?5000:30000);
+refreshTimer=setInterval(()=>{if(mode==='live'&&!document.hidden&&($('skyScreen').classList.contains('active')||$('home').classList.contains('active')))load()},30000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&mode==='live'&&($('skyScreen').classList.contains('active')||$('home').classList.contains('active')))load();});
 window.addEventListener('online',()=>{if(mode==='live'&&!document.hidden&&($('skyScreen').classList.contains('active')||$('home').classList.contains('active')))load();});
-if(DISPLAY_MODE){show('skyScreen');setInterval(()=>{if(!document.hidden&&!$('overlay').classList.contains('show')&&(!lastDisplayArrivalAt||Date.now()-lastDisplayArrivalAt>=12000)){const pages=Math.max(1,Math.ceil(items.length/PER_PAGE));if(pages>1){page=(page+1)%pages;render()}}},12000)}
+if(DISPLAY_MODE)show('skyScreen');setInterval(()=>{if(DISPLAY_MODE&&!document.hidden&&!$('overlay').classList.contains('show')&&(!lastDisplayArrivalAt||Date.now()-lastDisplayArrivalAt>=12000)){const pages=Math.max(1,Math.ceil(items.length/PER_PAGE));if(pages>1){page=(page+1)%pages;render()}}},12000);
 // Queue state belongs to this browser. A successful snapshot removes staff-deleted entries.
 const playback={player:null,ready:false,initializing:false,current:null,queue:[],done:new Set(),running:false,visible:false,apiPromise:null,errors:0,epoch:0,armed:null};
 var playbackInitialized=true;
@@ -977,6 +977,25 @@ show=function(name){
   if(listen){revealHomePlayer();syncPlayback();load();window.scrollTo({top:0,behavior:'instant'});(playback.running?$('playerPause'):$('playerStart')).focus({preventScroll:true});}
 };
 if(detachedPlayer){document.body.classList.add('player-window');$('openPlayerWindow').hidden=true;$('closeListening').hidden=true;}
+function switchDisplayMode(enabled,writeHistory=true){
+  // Change only the layout: keep the same live iframe, queue and playback position.
+  if(playerActive())setMiniPlayer(true);
+  DISPLAY_MODE=enabled;PER_PAGE=enabled?20:4;page=0;
+  document.body.classList.toggle('display-mode',enabled);
+  $('expandPlayer').hidden=enabled;
+  if(writeHistory){
+    const url=new URL(location.href);
+    if(enabled)url.searchParams.set('display','1');else url.searchParams.delete('display');
+    url.searchParams.delete('player');
+    if(url.href!==location.href)history.pushState(null,'',url);
+  }
+  show(enabled?'skyScreen':'home');
+  if(enabled)openDisplayPlayer();
+  render();measurePlayerVisibility();
+}
+$('displayBtn').onclick=()=>switchDisplayMode(true);
+$('exitDisplayBtn').onclick=()=>switchDisplayMode(false);
+window.addEventListener('popstate',()=>switchDisplayMode(new URLSearchParams(location.search).get('display')==='1',false));
 $('displayPlayerBtn').onclick=()=>{openDisplayPlayer();$('playerStart').focus({preventScroll:true});};
 if(DISPLAY_MODE)openDisplayPlayer();
 syncPlayback();
