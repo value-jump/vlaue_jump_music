@@ -240,10 +240,12 @@ body.display-mode.has-mini-player #skyScreen{height:calc(100dvh - 116px)}
 body.display-mode.has-mini-player:not(.player-bar-folded) #skyScreen{width:calc(100% - 220px)}
 body.display-mode.has-mini-player .cloud-field{width:100%}
 body.display-mode.has-mini-player .cloud{width:min(100%,calc((100dvh - 276px)*.235))}
-body.display-mode #homePlayback.mini-player{bottom:10px;right:12px}
+body.display-mode #homePlayback.mini-player{bottom:10px;left:0;right:0;margin:0 auto}
+body.display-mode #homePlayback.mini-player .player-mount{position:fixed;right:12px;bottom:126px}
 @media(max-width:640px){
  body.display-mode.has-mini-player #skyScreen{height:calc(100dvh - 180px)}
  body.display-mode.has-mini-player:not(.player-bar-folded) #skyScreen{width:100%;height:calc(100dvh - 390px)}
+ body.display-mode #homePlayback.mini-player .player-mount{bottom:190px}
 }
 /* Do not reserve a large empty video box before the first play request. */
 .home-playback:not(.video-requested) .player-mount{display:none}
@@ -731,6 +733,7 @@ const playback={player:null,ready:false,initializing:false,current:null,queue:[]
 var playbackInitialized=true;
 function playerActive(){return !$('homePlayback').hidden;}
 let listeningWindow=null;
+let selectedPlaybackId=null;
 const detachedPlayer=new URLSearchParams(location.search).get('playerWindow')==='1';
 let requestedSong=new URLSearchParams(location.search).get('song');
 let requestedStart=Math.max(0,Math.min(86400,Number(new URLSearchParams(location.search).get('start'))||0));
@@ -784,7 +787,8 @@ function openDisplayPlayer(){
 }
 async function playHomeItem(item){
   if(!publicHomeItems().some(row=>keyOf(row)===keyOf(item)))return;
-  revealHomePlayer();
+  // Start the chosen song in place, without navigating away from the record.
+  $('homePlayback').hidden=false;setMiniPlayer(true);
   if(playback.current&&keyOf(playback.current)===keyOf(item)){
     if(playback.running)pausePlayback(uiText('일시정지했습니다.'));else await startPlayback();
     return;
@@ -793,8 +797,7 @@ async function playHomeItem(item){
   if(playback.current)playback.done.add(keyOf(playback.current));
   playback.current=null;playback.armed=null;playback.epoch++;
   if(playback.ready)playback.player.stopVideo();
-  playback.done.delete(keyOf(item));syncPlayback();
-  playback.queue=[item,...playback.queue.filter(row=>keyOf(row)!==keyOf(item))];
+  playback.done.delete(keyOf(item));selectedPlaybackId=keyOf(item);syncPlayback();
   featuredId=keyOf(item);paintFeatured();paintQueue();await startPlayback();
 }
 function mayPlay(){return playerActive()&&!document.hidden&&playback.visible;}
@@ -841,6 +844,12 @@ function syncPlayback(){
     else requestedStart=0;
     requestedSong=null;
   }
+  // Preserve a direct song choice across list refreshes while the YouTube API loads.
+  if(selectedPlaybackId){
+    const selected=fresh.get(selectedPlaybackId);
+    if(selected)playback.queue=[selected,...playback.queue.filter(item=>keyOf(item)!==selectedPlaybackId)];
+    else selectedPlaybackId=null;
+  }
   paintQueue();paintCurrent();$('queueFresh').textContent=(playerActive()?'10':'30')+uiText('초마다 갱신');
   if(playback.running&&!playback.current&&playback.queue.length&&!playback.ready){
     $('homePlayback').classList.add('video-requested');measurePlayerVisibility();
@@ -853,6 +862,7 @@ function advancePlayback(){
   if(!playback.ready)return;
   if(playback.current)playback.done.add(keyOf(playback.current));
   playback.current=playback.queue.shift()||null;playback.armed=null;playback.epoch++;paintCurrent();paintQueue();
+  selectedPlaybackId=null;
   setRecordPlaying(false);
   if(!playback.current){playback.player.stopVideo();playerNote(uiText('대기 중인 곡을 모두 들었어요. 새 곡이 등록되면 이어서 재생합니다.'));return;}
   if(playback.running&&mayPlay()){
@@ -949,7 +959,7 @@ $('homeListen').onclick=()=>playback.running?pausePlayback(uiText('일시정지�
 $('playerPause').onclick=()=>pausePlayback(uiText('일시정지했습니다.'));
 $('playerNext').onclick=()=>{playback.errors=0;advancePlayback();};
 $('playerRefresh').onclick=()=>load();
-$('playerRestart').onclick=()=>{pausePlayback();playback.epoch++;playback.current=null;playback.done.clear();if(playback.ready)playback.player.stopVideo();syncPlayback();paintCurrent();playerNote(uiText('처음부터 준비했습니다. 재생 시작을 눌러주세요.'));};
+$('playerRestart').onclick=()=>{pausePlayback();selectedPlaybackId=null;playback.epoch++;playback.current=null;playback.done.clear();if(playback.ready)playback.player.stopVideo();syncPlayback();paintCurrent();playerNote(uiText('처음부터 준비했습니다. 재생 시작을 눌러주세요.'));};
 const playerObserver=new IntersectionObserver(entries=>{
   playback.visible=entries[0].intersectionRatio>0.5;
   if(!playback.visible&&playback.running)pausePlayback(uiText('영상이 보이지 않아 일시정지했습니다. 재생 화면에서 다시 시작해주세요.'));
